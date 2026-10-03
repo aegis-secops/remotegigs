@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Oportunidades remotas, freelance e IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f7f6;
+      --paper: #ffffff;
+      --paper-strong: #eef4f1;
+      --ink: #10201d;
+      --muted: #53635f;
+      --line: #ced9d5;
+      --line-strong: #9fb0aa;
+      --brand: #087f6d;
+      --brand-deep: #075e53;
+      --brand-soft: #d9f0ea;
+      --accent: #e4572e;
+      --accent-soft: #fff0e8;
+      --yellow: #a76400;
+      --yellow-soft: #fff2cf;
+      --shadow: 0 18px 50px rgba(24, 52, 46, .09);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0c1413;
+        --paper: #121d1b;
+        --paper-strong: #182623;
+        --ink: #edf7f4;
+        --muted: #aabbb6;
+        --line: #2c3d39;
+        --line-strong: #465b55;
+        --brand: #60d7c1;
+        --brand-deep: #9ce9db;
+        --brand-soft: #153b34;
+        --accent: #ff805d;
+        --accent-soft: #3b241d;
+        --yellow: #f3c36c;
+        --yellow-soft: #3a301b;
+        --shadow: 0 18px 50px rgba(0, 0, 0, .24);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        var(--bg);
+      background-size: 44px 44px;
+      background-attachment: fixed;
+      color: var(--ink);
+      font-family: "IBM Plex Sans", sans-serif;
+      line-height: 1.5;
+    }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+    .intro {
+      background: var(--paper);
+      border: 1px solid var(--line-strong);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 285px;
+      overflow: hidden;
+    }
+    .intro-copy { padding: clamp(28px, 5vw, 64px); }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--brand-deep);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .76rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 3px;
+      background: var(--accent);
+    }
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(2.25rem, 6.2vw, 5.4rem);
+      line-height: .95;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 690px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 1.8vw, 1.24rem);
+    }
+    .intro-stats {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      border-left: 1px solid var(--line-strong);
+      background: var(--paper-strong);
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .stat:last-child { border-bottom: 0; }
+    .stat strong {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .stat span { margin-top: 7px; color: var(--muted); font-size: .83rem; }
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin: 22px 0 0;
+      padding: 16px;
+      background: color-mix(in srgb, var(--paper) 93%, transparent);
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 9px 30px rgba(24, 52, 46, .08);
+      backdrop-filter: blur(12px);
+    }
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      width: 19px;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+    #search {
+      width: 100%;
+      height: 48px;
+      padding: 0 15px 0 43px;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      outline: none;
+    }
+    #search:focus { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+    #search::placeholder { color: var(--muted); opacity: .85; }
+    .filter-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter {
+      min-height: 36px;
+      padding: 7px 12px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .filter:hover { border-color: var(--brand); color: var(--ink); }
+    .filter.active { color: #fff; background: var(--brand-deep); border-color: var(--brand-deep); }
+    @media (prefers-color-scheme: dark) { .filter.active { color: #08211c; } }
+    .result-count {
+      align-self: center;
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .78rem;
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 34px 0 16px;
+    }
+    .section-head h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.025em; }
+    .section-head p { margin: 0; color: var(--muted); font-size: .86rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      min-width: 0;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(24, 52, 46, .045);
+      display: flex;
+      flex-direction: column;
+    }
+    .card[hidden] { display: none; }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 22px 0;
+    }
+    .card-title { min-width: 0; }
+    .source {
+      margin: 0 0 5px;
+      color: var(--brand-deep);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .025em;
+    }
+    .card h3 { margin: 0; font-size: 1.2rem; line-height: 1.2; }
+    .index {
+      color: var(--line-strong);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .82rem;
+    }
+    .summary { margin: 15px 22px 0; color: var(--muted); font-size: .93rem; }
+    .facts { margin: 19px 22px 0; border-top: 1px solid var(--line); }
+    .fact {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: .86rem;
+    }
+    .fact dt { margin: 0; color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: .68rem; }
+    .fact dd { margin: 0; }
+    .card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      padding: 18px 22px 22px;
+    }
+    .tag {
+      padding: 5px 8px;
+      background: var(--brand-soft);
+      color: var(--brand-deep);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .67rem;
+      font-weight: 600;
+    }
+    .tag.partial { background: var(--yellow-soft); color: var(--yellow); }
+    .visit {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-left: auto;
+      color: var(--ink);
+      font-size: .86rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+    }
+    .visit:hover { color: var(--brand-deep); border-color: var(--brand-deep); }
+    .visit svg { width: 15px; }
+    .empty {
+      display: none;
+      padding: 48px 24px;
+      text-align: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+    .empty.show { display: block; }
+    .empty h3 { margin: 0 0 6px; }
+    .empty p { margin: 0; color: var(--muted); }
+    .notes {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      background: var(--accent-soft);
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+    }
+    .notes h2 { margin: 0; padding: 26px; color: var(--accent); font-size: 1.25rem; }
+    .notes ul { margin: 0; padding: 26px 32px 26px 44px; border-left: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .notes li { margin: 0 0 9px; }
+    .notes li:last-child { margin-bottom: 0; }
+    .provenance {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+      text-align: right;
+    }
+    @media (max-width: 780px) {
+      .shell { width: min(100% - 22px, 680px); padding-top: 11px; }
+      .intro { grid-template-columns: 1fr; }
+      .intro-copy { padding: 30px 24px 32px; }
+      .intro-stats { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; border-left: 0; border-top: 1px solid var(--line-strong); }
+      .stat { padding: 18px 14px; border-right: 1px solid var(--line-strong); border-bottom: 0; }
+      .stat:last-child { border-right: 0; }
+      .stat strong { font-size: 1.45rem; }
+      .stat span { font-size: .72rem; }
+      .controls { position: static; padding: 12px; }
+      .filter-row { display: block; }
+      .result-count { display: block; margin-top: 12px; }
+      .grid { grid-template-columns: 1fr; }
+      .notes { grid-template-columns: 1fr; }
+      .notes ul { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    }
+    @media (max-width: 440px) {
+      h1 { font-size: 2.55rem; }
+      .intro-stats { grid-template-columns: 1fr; }
+      .stat { min-height: 72px; border-right: 0; border-bottom: 1px solid var(--line-strong); flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; }
+      .stat:last-child { border-bottom: 0; }
+      .stat span { margin: 0; }
+      .card-top, .summary, .facts, .card-footer { margin-left: 0; margin-right: 0; }
+      .card-top { padding-left: 18px; padding-right: 18px; }
+      .summary, .facts { margin-left: 18px; margin-right: 18px; }
+      .card-footer { padding-left: 18px; padding-right: 18px; }
+      .fact { grid-template-columns: 1fr; gap: 4px; }
+      .section-head { align-items: start; flex-direction: column; gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <p class="eyebrow">BARRIDO VERIFICADO · 03 OCT 2026</p>
+        <h1 id="page-title">Trabajo remoto para empezar ahora.</h1>
+        <p class="lede">Un mapa breve de bolsas junior, marketplaces freelance y plataformas para entrenar IA, con foco en opciones accesibles desde LatAm.</p>
+      </div>
+      <div class="intro-stats" aria-label="Resumen del barrido">
+        <div class="stat"><strong>17</strong><span>fuentes verificadas</span></div>
+        <div class="stat"><strong>3</strong><span>rutas de ingreso</span></div>
+        <div class="stat"><strong>13</strong><span>con LatAm confirmado</span></div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Filtros de oportunidades">
+      <div class="search-wrap">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+        <input id="search" type="search" autocomplete="off" placeholder="Buscar por plataforma, habilidad o tipo de trabajo…" aria-label="Buscar oportunidades" />
+      </div>
+      <div class="filter-row">
+        <div class="filter-group" role="group" aria-label="Filtrar por categoría">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">Todas</button>
+          <button class="filter" type="button" data-filter="remoto" aria-pressed="false">Empleo remoto</button>
+          <button class="filter" type="button" data-filter="freelance" aria-pressed="false">Freelance</button>
+          <button class="filter" type="button" data-filter="ia" aria-pressed="false">Entrenar IA</button>
+          <button class="filter" type="button" data-filter="latam" aria-pressed="false">LatAm sí</button>
+        </div>
+        <span class="result-count" id="resultCount" aria-live="polite">17 resultados</span>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h2>Oportunidades y plataformas</h2>
+      <p>Revisa requisitos y país antes de aplicar.</p>
+    </div>
+
+    <section class="grid" id="opportunityGrid" aria-label="Listado de oportunidades">
+      <article class="card" data-category="remoto" data-latam="yes" data-search="we work remotely customer support data entry empleos remotos entry level global">
+        <div class="card-top"><div class="card-title"><p class="source">BOLSA REMOTA</p><h3>We Work Remotely</h3></div><span class="index">01</span></div>
+        <p class="summary">Avisos full-time y part-time; hay roles entry-level, aunque la mayoría son mid/senior.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Salario según aviso; ejemplos observados desde US$20/h.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Aplicar es gratis y no requiere cuenta. Filtra por junior.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global; muchos avisos indican “Anywhere in the World”.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SEGÚN AVISO</span><a class="visit" href="https://weworkremotely.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="remoto" data-latam="yes" data-search="remoteok remoto junior entry level salario brasil latam worldwide">
+        <div class="card-top"><div class="card-title"><p class="source">BOLSA REMOTA</p><h3>RemoteOK</h3></div><span class="index">02</span></div>
+        <p class="summary">Bolsa con salarios visibles en parte de los avisos y filtros por junior o entry-level.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Salario según aviso, con iniciativa #OpenSalaries.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Filtra por junior/entry-level y aplica desde cada publicación.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Incluye filtros para Brasil, países de LatAm y “Worldwide”.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://remoteok.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="remoto" data-latam="partial" data-search="wellfound startups fintech ai empleo remoto perfil proyectos cv">
+        <div class="card-top"><div class="card-title"><p class="source">STARTUPS</p><h3>Wellfound</h3></div><span class="index">03</span></div>
+        <p class="summary">Empleos en más de 27.000 startups; los proyectos pueden pesar más que un CV tradicional.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Salario según cada startup y posición.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Perfil gratuito; puedes aplicar directo o ser encontrado por recruiters.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global con filtro remoto; disponibilidad LatAm según aviso.</dd></div></dl>
+        <div class="card-footer"><span class="tag partial">LATAM PARCIAL</span><a class="visit" href="https://wellfound.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="remoto" data-latam="yes" data-search="publipega sin experiencia community manager junior diseño practicas marketing peru mexico colombia nicaragua">
+        <div class="card-top"><div class="card-title"><p class="source">SIN EXPERIENCIA</p><h3>Publipega</h3></div><span class="index">04</span></div>
+        <p class="summary">Bolsa en español con filtro específico “sin experiencia” y avisos de varios países de LatAm.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Según aviso; también aparecen pasantías “Ad Honorem”.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Vistos: Community Manager Jr., diseño en prácticas y marketing.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Foco 100% LatAm: Perú, México, Colombia, Nicaragua y más.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><span class="tag partial">REVISA SI ES PAGO</span><a class="visit" href="https://www.publipega.com/tipo-trabajo/sin-experiencia/" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="remoto" data-latam="yes" data-search="vacantes guia trabajo remoto latam sin experiencia asistente virtual soporte qa redaccion redes sociales">
+        <div class="card-top"><div class="card-title"><p class="source">GUÍA + BOLSA</p><h3>Vacantes.com</h3></div><span class="index">05</span></div>
+        <p class="summary">Guía 2026 para entrar al trabajo remoto en LatAm, con rutas de aprendizaje de 2 a 6 semanas.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Referencias mensuales: asistente US$400–700; soporte US$600–1.100; QA Jr. US$600–1.000.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Crear perfil gratis y activar alertas.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Específica para candidaturas desde LatAm.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://vacantes.com/es/blog/busqueda-de-empleo/como-conseguir-trabajo-remoto-en-latam-sin-experiencia-guia-practica-2026/" target="_blank" rel="noopener noreferrer">Ver guía <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="yes" data-search="peopleperhour freelancer proyectos hora precio fijo 27 67 global">
+        <div class="card-top"><div class="card-title"><p class="source">MARKETPLACE FREELANCE</p><h3>PeoplePerHour</h3></div><span class="index">06</span></div>
+        <p class="summary">Marketplace con 3 millones de freelancers en más de 100 países.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Proyectos por hora o precio fijo; ejemplos vistos de US$27–67/h.</dd></div><div class="fact"><dt>ACCESO</dt><dd>El perfil pasa revisión manual; conviene iniciar con proyectos chicos.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, aunque aproximadamente 60% del mercado es UK.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://www.peopleperhour.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="yes" data-search="guru freelancer safepay precio fijo hora tarea recurrente sin experiencia">
+        <div class="card-top"><div class="card-title"><p class="source">MARKETPLACE FREELANCE</p><h3>Guru</h3></div><span class="index">07</span></div>
+        <p class="summary">Proyectos protegidos por SafePay con distintas modalidades de contratación.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Precio fijo, hora, tarea o recurrente; comisión de 5–9%.</dd></div><div class="fact"><dt>ACCESO</dt><dd>No exige experiencia; crea perfil y cotiza proyectos.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, disponible para LatAm.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><span class="tag">SIN EXPERIENCIA</span><a class="visit" href="https://www.guru.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="yes" data-search="99designs concursos diseño logos branding web merito sin reputacion">
+        <div class="card-top"><div class="card-title"><p class="source">CONCURSOS DE DISEÑO</p><h3>99designs</h3></div><span class="index">08</span></div>
+        <p class="summary">Concursos de logos, branding y web donde se puede ganar por mérito sin reputación previa.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Premio del concurso del cliente; se crea un diseño cada 2 segundos.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Necesitas habilidad de diseño y un perfil para participar.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, con presencia en 192 países.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://99designs.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="yes" data-search="freeup freelancer entry level data entry research asistente virtual ecommerce soporte">
+        <div class="card-top"><div class="card-title"><p class="source">RED FREELANCE VETADA</p><h3>FreeUp</h3></div><span class="index">09</span></div>
+        <p class="summary">Red selectiva de freelancers; su tier de entrada contempla perfiles principiantes rápidos para aprender.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Tier entry-level de US$5–15/h.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Requiere aplicación y entrevista; tareas de data entry, research, VA y soporte.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global y remoto.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><span class="tag partial">REQUIERE VETTING</span><a class="visit" href="https://freeup.net" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="yes" data-search="hubstaff talent directorio remoto gratis sin comisiones asistente qa contacto directo">
+        <div class="card-top"><div class="card-title"><p class="source">DIRECTORIO DE TALENTO</p><h3>Hubstaff Talent</h3></div><span class="index">10</span></div>
+        <p class="summary">Directorio remoto gratuito y sin intermediarios para contacto directo con empresas.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Full-time o por hora; ejemplos vistos desde US$6/h en asistencia.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Sin comisiones; crea un perfil gratis.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, disponible para LatAm.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><span class="tag">0% COMISIÓN</span><a class="visit" href="https://talent.hubstaff.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="freelance" data-latam="partial" data-search="textbroker redaccion articulos escritura paypal muestra sin titulo">
+        <div class="card-top"><div class="card-title"><p class="source">REDACCIÓN POR ENCARGO</p><h3>Textbroker</h3></div><span class="index">11</span></div>
+        <p class="summary">Programa de autores para redactar por encargo; la portada actual está enfocada en clientes.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Referencia histórica: US$7–50 por artículo de 500 palabras; pago semanal por PayPal.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Muestra de escritura de 5 minutos; no requiere título.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, pero hay que confirmar país y flujo de registro.</dd></div></dl>
+        <div class="card-footer"><span class="tag partial">LATAM PARCIAL</span><span class="tag partial">CONFIRMA REGISTRO</span><a class="visit" href="https://textbroker.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="partial" data-search="dataannotation ai training rlHF coding ingles sin experiencia evaluacion 20 60">
+        <div class="card-top"><div class="card-title"><p class="source">ENTRENAMIENTO DE IA</p><h3>DataAnnotation</h3></div><span class="index">12</span></div>
+        <p class="summary">Tareas de anotación, RLHF y coding; no exige experiencia previa en IA.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>US$20–60+/h según proyecto.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Evaluación inicial e inglés escrito.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Los proyectos mejor pagos priorizan US, UK y Canadá; verifica elegibilidad.</dd></div></dl>
+        <div class="card-footer"><span class="tag partial">LATAM PARCIAL</span><a class="visit" href="https://dataannotation.tech" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="yes" data-search="outlier scale ai trainers freelance calidad semanal sin experiencia universidad ingles">
+        <div class="card-top"><div class="card-title"><p class="source">AI TRAINERS FREELANCE</p><h3>Outlier AI</h3></div><span class="index">13</span></div>
+        <p class="summary">Red de más de 900.000 contribuidores; la plataforma dice “No AI experience needed”.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Pago competitivo, bonos por calidad y pago semanal.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Nivel universitario en algún dominio, inglés y screening de 30–90 min.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>“Work from wherever”; disponibilidad global.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://www.outlier.ai" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="yes" data-search="remotasks scale ai microtareas entrenamiento pago por tarea facebook gmail sin experiencia">
+        <div class="card-top"><div class="card-title"><p class="source">MICROTAREAS IA</p><h3>Remotasks</h3></div><span class="index">14</span></div>
+        <p class="summary">Microtareas para entrenar IA con training integrado y onboarding simple.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Pago por tarea; rango reportado de hasta aproximadamente US$18/h.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Sin experiencia; registro con Facebook o Gmail.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Global, disponible para LatAm.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><span class="tag partial">PAGO VARIABLE</span><a class="visit" href="https://www.remotasks.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="yes" data-search="appen crowdgen anotacion evaluacion ia idiomas sin experiencia calificacion">
+        <div class="card-top"><div class="card-title"><p class="source">DATOS PARA IA</p><h3>Appen · CrowdGen</h3></div><span class="index">15</span></div>
+        <p class="summary">Proyectos de anotación y evaluación de IA, con tareas globales priorizadas por idioma.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Por hora o tarea; rango reportado de US$15–25/h.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Hay tareas sin experiencia; algunas requieren exámenes de calificación.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Proyectos globales, con opciones para LatAm.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://appen.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="yes" data-search="clickworker microtareas anotacion categorizacion validacion datos app android ios 136 paises">
+        <div class="card-top"><div class="card-title"><p class="source">MICROTAREAS</p><h3>Clickworker</h3></div><span class="index">16</span></div>
+        <p class="summary">Anotación, categorización y validación de datos desde app o escritorio.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Pago por tarea directamente desde la plataforma.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Registro gratis y sin experiencia; calificaciones internas desbloquean tareas.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Disponible en 136 países.</dd></div></dl>
+        <div class="card-footer"><span class="tag">LATAM SÍ</span><a class="visit" href="https://www.clickworker.com" target="_blank" rel="noopener noreferrer">Ver fuente <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+
+      <article class="card" data-category="ia" data-latam="partial" data-search="indeed data annotation remote social media 16 28 freelance contract sin titulo">
+        <div class="card-top"><div class="card-title"><p class="source">AGREGADOR DE AVISOS</p><h3>Indeed · Data Annotation</h3></div><span class="index">17</span></div>
+        <p class="summary">Búsqueda de avisos remotos de anotación; varios no piden título.</p>
+        <dl class="facts"><div class="fact"><dt>INGRESO</dt><dd>Según aviso; ejemplo observado de US$16–28/h freelance/contract.</dd></div><div class="fact"><dt>ACCESO</dt><dd>Requisitos variables; el ejemplo pedía fluidez nativa y criterio.</dd></div><div class="fact"><dt>REGIÓN</dt><dd>Filtrar por “Remote”; la elegibilidad LatAm depende del aviso.</dd></div></dl>
+        <div class="card-footer"><span class="tag partial">LATAM PARCIAL</span><a class="visit" href="https://www.indeed.com/q-data-annotation-remote-jobs.html" target="_blank" rel="noopener noreferrer">Ver resultados <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 14 14 6M8 6h6v6" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+      </article>
+    </section>
+
+    <div class="empty" id="emptyState" role="status">
+      <h3>No hay coincidencias</h3>
+      <p>Prueba otra palabra o vuelve a “Todas”.</p>
+    </div>
+
+    <aside class="notes" aria-labelledby="notes-title">
+      <h2 id="notes-title">Antes de aplicar</h2>
+      <ul>
+        <li>Este fue un barrido manual abreviado: son plataformas verificadas, no promesas de vacantes activas para tu país.</li>
+        <li>Publipega incluye algunas pasantías no remuneradas; confirma la compensación en cada aviso.</li>
+        <li>DataAnnotation prioriza US, UK y Canadá en los proyectos mejor pagos.</li>
+        <li>Textbroker mantiene programa de autores, pero conviene verificar país y flujo de registro antes de invertir tiempo.</li>
+        <li>En microtareas, el ingreso real depende de disponibilidad, idioma, calidad y volumen de tareas.</li>
+      </ul>
+    </aside>
+    <p class="provenance">Fuentes abiertas y verificadas el 03/10/2026 · Los valores conservan los rangos y caveats de cada fuente.</p>
+  </main>
+
+  <script>
+    (function () {
+      var search = document.getElementById('search');
+      var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+      var count = document.getElementById('resultCount');
+      var empty = document.getElementById('emptyState');
+      var activeFilter = 'all';
+
+      function normalize(value) {
+        return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function applyFilters() {
+        var query = normalize(search.value.trim());
+        var visible = 0;
+        cards.forEach(function (card) {
+          var categoryMatch = activeFilter === 'all' ||
+            card.dataset.category === activeFilter ||
+            (activeFilter === 'latam' && card.dataset.latam === 'yes');
+          var haystack = normalize(card.textContent + ' ' + card.dataset.search);
+          var searchMatch = !query || haystack.indexOf(query) !== -1;
+          var show = categoryMatch && searchMatch;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        count.textContent = visible + (visible === 1 ? ' resultado' : ' resultados');
+        empty.classList.toggle('show', visible === 0);
+      }
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          activeFilter = button.dataset.filter;
+          buttons.forEach(function (item) {
+            var isActive = item === button;
+            item.classList.toggle('active', isActive);
+            item.setAttribute('aria-pressed', String(isActive));
+          });
+          applyFilters();
+        });
+      });
+      search.addEventListener('input', applyFilters);
+    })();
+  </script>
+</body>
+</html>
